@@ -1,9 +1,4 @@
 {
   "name": "minube/phalcon-sphinx",
-  "type": "library",
-  "autoload": {
-    "psr-0": {
-      "Phalcon": "Adapters/"
-    }
-  }
+  "type": "library"
 }
