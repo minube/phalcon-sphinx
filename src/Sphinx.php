@@ -1,6 +1,6 @@
 <?php
 
-namespace Adapters;
+namespace Adapters\Sphinx;
 
 use Adapters\Sphinx\Exception\ConnectionException;
 use Adapters\Sphinx\Connection\AbstractConnection;
