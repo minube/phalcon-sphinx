@@ -21,8 +21,6 @@ use Adapters\Sphinx\Query\Expression\ExpressionInterface;
  *    [OPTION opt_name = opt_value [, ...]]
  *
  * @link        http://sphinxsearch.com/docs/current.html#sphinxql-select
- * @author      Roman Kulish <roman.kulish@gmail.com>
- * @since       0.2.0-dev
  */
 class Select extends AbstractQuery
 {
