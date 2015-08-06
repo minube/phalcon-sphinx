@@ -5,6 +5,7 @@ namespace Adapters\Sphinx\Query;
 use Adapters\Sphinx\Connection\AbstractConnection;
 use Adapters\Sphinx\Exception\QueryBuilderException;
 use Adapters\Sphinx\Query\Expression\ExpressionInterface;
+use Adapters\Sphinx\Query\Predicate\PredicateInterface;
 
 /**
  * Class Select is a SphinxQL SELECT query builder
