@@ -699,7 +699,7 @@ class Select extends AbstractQuery
                     if ($isNamedIntegers === null) {
                         $isNamedIntegers = is_string($key);
                     } else if (($isNamedIntegers && !is_string($key)) || (!$isNamedIntegers && is_string($key))) {
-                        throw new QueryBuilderException('Named integer list and list of strings cannot be mixed together');
+                        throw new \QueryBuilderException('Named integer list and list of strings cannot be mixed together');
                     }
 
                     if ($isNamedIntegers) {
