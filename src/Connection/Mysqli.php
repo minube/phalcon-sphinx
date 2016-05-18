@@ -73,12 +73,12 @@ class Mysqli extends AbstractConnection
     /**
      * Establish database connection
      *
+     * @param bool $force
      * @return Mysqli
-     * @throws ConnectionException
      */
-    public function connect()
+    public function connect($force = false)
     {
-        if ($this->isConnected()) {
+        if (!$force && $this->isConnected()) {
             return $this;
         }
 

@@ -804,7 +804,16 @@ class Sphinx
             ));
         }
 
-        return $connection->fetchOne($query);
+        try {
+            $result = $connection->fetchOne($query);
+        } catch (\Adapters\Sphinx\Exception\ConnectionException $exception) {
+            $connection->connect(true);
+            $result = $connection->fetchOne($query);
+        } catch (\Exception $exception) {
+            $connection->connect(true);
+            $result = $connection->fetchOne($query);
+        }
+        return $result;
     }
 
     /**
@@ -827,7 +836,16 @@ class Sphinx
             ));
         }
 
-        return $connection->fetchAll($query);
+        try {
+            $result = $connection->fetchAll($query);
+        } catch (\Adapters\Sphinx\Exception\ConnectionException $exception) {
+            $connection->connect(true);
+            $result = $connection->fetchAll($query);
+        } catch (\Exception $exception) {
+            $connection->connect(true);
+            $result = $connection->fetchAll($query);
+        }
+        return $result;
     }
 
     /**
@@ -853,7 +871,16 @@ class Sphinx
             ));
         }
 
-        return $connection->execute($query);
+        try {
+            $result = $connection->execute($query);
+        } catch (\Adapters\Sphinx\Exception\ConnectionException $exception) {
+            $connection->connect(true);
+            $result = $connection->execute($query);
+        } catch (\Exception $exception) {
+            $connection->connect(true);
+            $result = $connection->execute($query);
+        }
+        return $result;
     }
 
     /**
