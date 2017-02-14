@@ -7,5 +7,5 @@ namespace Adapters\Sphinx\Exception;
  */
 class SphinxException extends \RuntimeException
 {
-    protected $code = 543;
+    protected $code = 523;
 }
