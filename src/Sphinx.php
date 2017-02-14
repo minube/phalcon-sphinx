@@ -6,6 +6,7 @@ use Adapters\Sphinx\Exception\ConnectionException;
 use Adapters\Sphinx\Connection\AbstractConnection;
 use Adapters\Sphinx\Connection\PdoMysql;
 use Adapters\Sphinx\Connection\Mysqli;
+use Adapters\Sphinx\Exception\SphinxException;
 use Adapters\Sphinx\Query\AbstractQuery;
 use Adapters\Sphinx\Query\Expression\Literal;
 use Adapters\Sphinx\Query\Expression\Expression;
@@ -807,11 +808,9 @@ class Sphinx
         try {
             $result = $connection->fetchOne($query);
         } catch (\Adapters\Sphinx\Exception\ConnectionException $exception) {
-            $connection->connect(true);
-            $result = $connection->fetchOne($query);
+            $this->retryFetch("fetchOne", $connection, $query);
         } catch (\Exception $exception) {
-            $connection->connect(true);
-            $result = $connection->fetchOne($query);
+            $this->retryFetch("fetchOne", $connection, $query);
         }
         return $result;
     }
@@ -839,11 +838,29 @@ class Sphinx
         try {
             $result = $connection->fetchAll($query);
         } catch (\Adapters\Sphinx\Exception\ConnectionException $exception) {
-            $connection->connect(true);
-            $result = $connection->fetchAll($query);
+            $this->retryFetch("fetchAll", $connection, $query);
         } catch (\Exception $exception) {
+            $this->retryFetch("fetchAll", $connection, $query);
+        }
+        return $result;
+    }
+
+    /**
+     * @param string $methodName
+     * @param AbstractConnection $connection
+     * @param string|Select $query
+     * @return array[]
+     * @throws SphinxException
+     */
+    protected function retryFetch($methodName, $connection, $query)
+    {
+        try {
             $connection->connect(true);
-            $result = $connection->fetchAll($query);
+            $result = $connection->$methodName($query);
+        } catch (\Adapters\Sphinx\Exception\ConnectionException $exception) {
+            throw new SphinxException("Sphinx: on connection");
+        } catch (\Exception $exception) {
+            throw new SphinxException("Sphinx: on query");
         }
         return $result;
     }
