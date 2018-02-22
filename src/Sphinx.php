@@ -814,6 +814,43 @@ class Sphinx
         }
         return $result;
     }
+    
+    /**
+     * @param string $input
+     * @param bool $trimmed
+     * @return string
+     */
+    public function cleanTextForMatch($input, $trimmed = false)
+    {
+        $in = array("'", "-", "$", "@", "!", "^", "(", ")");
+        $out = str_replace($in, " ", $input);
+        if ($trimmed) {
+            $out = trim($out);
+        }
+        return $out;
+    }
+    
+    /**
+     * @param string $query
+     * @return string
+     */
+    public function completeSearchForMatch($query)
+    {
+        $whereCondition = "";
+        if (!empty($query)) {
+            $whereCondition = "MATCH('
+                        \"{$query}\" |
+                        (^{$query}*) |
+                        (*{$query}*)";
+            
+            $matchWords = explode(" ", $query);
+            foreach ($matchWords as $word) {
+                $whereCondition .= " |  {$word}";
+            }
+            $whereCondition .= "')";
+        }
+        return $whereCondition;
+    }
 
     /**
      * Execute a {@see Select} query and return all fetched rows
